@@ -1,0 +1,17 @@
+{
+  "name": "firefetch",
+  "version": "1.0.0",
+  "description": "Copy resources from firebase",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Jay Patel <jaybpatidar@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "firebase-admin": "^12.6.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5"
+  }
+}
