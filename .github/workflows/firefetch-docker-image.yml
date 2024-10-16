@@ -2,7 +2,7 @@ name: FireFetch Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
     paths:
       - firefetch/**
 
@@ -11,14 +11,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
 
-    - uses: actions/checkout@v4
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-    - name: Log in to Docker Hub
-      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      - name: Generate Docker tag
+        id: docker_tag
+        run: echo "tag=$(date +%s)" >> $GITHUB_OUTPUT
 
-    - name: Build the Docker image
-      run: docker build firefetch --file firefetch/Dockerfile --tag jaypatel1210/firefetch:$(date +%s)
+      - name: Build the Docker image
+        run: docker build firefetch --file firefetch/Dockerfile --tag jaypatel1210/firefetch:${{ steps.docker_tag.outputs.tag }}
 
-    - name: Push the Docker image
-      run: docker push jaypatel1210/firefetch:$(date +%s)
+      - name: Push the Docker image
+        run: docker push jaypatel1210/firefetch:${{ steps.docker_tag.outputs.tag }}
