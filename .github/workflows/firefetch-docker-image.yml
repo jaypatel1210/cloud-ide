@@ -18,7 +18,7 @@ jobs:
 
       - name: Generate Docker tag
         id: docker_tag
-        run: echo "tag=$(date +%s)" >> $GITHUB_OUTPUT
+        run: echo "tag=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Build the Docker image
         run: docker build firefetch --file firefetch/Dockerfile --tag jaypatel1210/firefetch:${{ steps.docker_tag.outputs.tag }}
