@@ -120,8 +120,3 @@ async function downloadFromFirebase(remoteDir, localDir) {
     admin.app().delete(); // Clean up Firebase app
   }
 }
-
-// Usage
-const remoteDir = process.env.PROJECTID;
-const localDir = process.env.LOCALDIR;
-downloadFromFirebase(remoteDir, localDir);
