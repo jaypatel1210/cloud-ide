@@ -122,6 +122,6 @@ async function downloadFromFirebase(remoteDir, localDir) {
 }
 
 // Usage
-const remoteDir = process.env.PROJECTID;
-const localDir = process.env.LOCALDIR;
+const remoteDir = process.env.PROJECTID; // example: code/prj_id
+const localDir = process.env.LOCALDIR; // example: your local directory
 downloadFromFirebase(remoteDir, localDir);
