@@ -1,10 +1,10 @@
-name: FireFetch Docker Image CI
+# name: FireFetch Docker Image CI
 
-on:
-  push:
-    branches: ['main']
-    paths:
-      - firefetch/**
+# on:
+#   push:
+#     branches: ['main']
+#     paths:
+#       - firefetch/**
 
 jobs:
   build:
