@@ -1,0 +1,27 @@
+{
+  "name": "background",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "babel-node  ./src/index.js",
+    "start": "node ./src/index.js"
+  },
+  "author": "Jay Patel <jaybpatidar@gmail.com>",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "firebase-admin": "^12.7.0",
+    "jsonwebtoken": "^9.0.2",
+    "node-cron": "^3.0.3",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.25.9",
+    "@babel/core": "^7.26.0",
+    "@babel/node": "^7.26.0",
+    "@babel/preset-env": "^7.26.0"
+  }
+}
