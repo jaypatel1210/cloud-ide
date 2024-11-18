@@ -1,0 +1,24 @@
+{
+  "name": "user",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node ./src/index.js"
+  },
+  "author": "Jay Patel <jaybpatidar@gmail.com>",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "firebase-admin": "^12.6.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.8",
+    "@babel/node": "^7.25.7",
+    "@babel/preset-env": "^7.25.8"
+  }
+}
