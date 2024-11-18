@@ -7,6 +7,7 @@ on:
       - 'firefetch/**'
       - 'executor/**'
       - 'server/**'
+      - 'background/**'
 
 jobs:
   check-changes:
@@ -41,6 +42,13 @@ jobs:
               matrix="$matrix,"
             fi
             matrix="$matrix{\"directory\":\"server\",\"image\":\"cloud-ide-server\"}"
+          fi
+
+          if git diff --name-only HEAD^ HEAD | grep -q "^background/"; then
+            if [[ "$matrix" != "{\"include\":[" ]]; then
+              matrix="$matrix,"
+            fi
+            matrix="$matrix{\"directory\":\"background\",\"image\":\"cloud-ide-background\"}"
           fi
 
           matrix="$matrix]}"
