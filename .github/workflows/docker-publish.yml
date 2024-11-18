@@ -8,11 +8,46 @@ on:
       - 'executor/**'
 
 jobs:
-  build:
+  check-changes:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check modified directories and set matrix
+        id: set-matrix
+        run: |
+          matrix="{\"include\":["
+
+          if git diff --name-only HEAD^ HEAD | grep -q "^firefetch/"; then
+            matrix="$matrix{\"directory\":\"firefetch\",\"image\":\"firefetch\"}"
+          fi
+
+          if git diff --name-only HEAD^ HEAD | grep -q "^executor/"; then
+            if [[ "$matrix" != "{\"include\":[" ]]; then
+              matrix="$matrix,"
+            fi
+            matrix="$matrix{\"directory\":\"executor\",\"image\":\"cloud-ide-executor\"}"
+          fi
+
+          matrix="$matrix]}"
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: check-changes
+    if: fromJson(needs.check-changes.outputs.matrix).include[0]
+    strategy:
+      matrix: ${{ fromJson(needs.check-changes.outputs.matrix) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
-      - name: Checkout repository
+      - name: Check out code
         uses: actions/checkout@v4
 
       - name: Log in to Docker Hub
@@ -20,17 +55,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Determine changed directory and image name
-        id: changed_dir
-        run: |
-          if [ -d firefetch ]; then
-            echo "dir=firefetch" >> "$GITHUB_ENV"
-            echo "image_name=firefetch" >> "$GITHUB_ENV"
-          elif [ -d executor ]; then
-            echo "dir=executor" >> "$GITHUB_ENV"
-            echo "image_name=cloud-ide-executor" >> "$GITHUB_ENV"
-          fi
 
       - name: Get short SHA
         id: short_sha
@@ -40,10 +64,10 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: jaypatel1210/${{ env.image_name }}
+          images: jaypatel1210/${{ matrix.image }}
           tags: |
-            type=raw,value=latest
             type=raw,value=${{ steps.short_sha.outputs.short_sha }}
+            type=raw,value=latest
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -51,8 +75,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
-          context: ${{ env.dir }}
-          file: ${{ env.dir }}/Dockerfile
+          context: ${{ matrix.directory }}
+          file: ${{ matrix.directory }}/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
