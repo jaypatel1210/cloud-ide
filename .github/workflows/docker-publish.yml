@@ -8,6 +8,7 @@ on:
       - 'executor/**'
       - 'server/**'
       - 'background/**'
+      - 'k8s-orchestrator/**'
 
 jobs:
   check-changes:
@@ -49,6 +50,13 @@ jobs:
               matrix="$matrix,"
             fi
             matrix="$matrix{\"directory\":\"background\",\"image\":\"cloud-ide-background\"}"
+          fi
+
+          if git diff --name-only HEAD^ HEAD | grep -q "^k8s-orchestrator/"; then
+            if [[ "$matrix" != "{\"include\":[" ]]; then
+              matrix="$matrix,"
+            fi
+            matrix="$matrix{\"directory\":\"k8s-orchestrator\",\"image\":\"cloud-ide-k8s-orchestrator\"}"
           fi
 
           matrix="$matrix]}"
