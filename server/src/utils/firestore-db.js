@@ -33,20 +33,18 @@ async function readRecord(collectionName, docId) {
   }
 }
 
-//   async function updateRecord(collectionName, data, docId = null) {
-//     try {
-//       const docRef = docId
-//         ? db.collection(collectionName).doc(docId)
-//         : db.collection(collectionName).doc();
+async function updateRecord(collectionName, docId, data) {
+  try {
+    const docRef = db.collection(collectionName).doc(docId);
 
-//       await docRef.update(data);
+    await docRef.update(data);
 
-//       return docRef.id;
-//     } catch (error) {
-//       console.error('Error updating record:', error);
-//       throw error;
-//     }
-//   }
+    return docRef.id;
+  } catch (error) {
+    console.error('Error updating record:', error);
+    throw error;
+  }
+}
 
 async function deleteRecord(collectionName, docId) {
   try {
@@ -97,4 +95,10 @@ const createCurriedQuery =
     }
   };
 
-export { addRecord, readRecord, deleteRecord, createCurriedQuery };
+export {
+  addRecord,
+  readRecord,
+  updateRecord,
+  deleteRecord,
+  createCurriedQuery,
+};

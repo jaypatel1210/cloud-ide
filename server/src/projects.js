@@ -1,7 +1,7 @@
 import {
   addRecord,
   createCurriedQuery,
-  deleteRecord,
+  updateRecord,
 } from './utils/firestore-db.js';
 import verifyFirebaseToken from './middleware/verify-token.js';
 import generateRandomID from './utils/generateRandomID.js';
@@ -55,11 +55,15 @@ function registerProjectRoutes(app) {
     }
   });
 
-  app.delete('/project/:projectId', verifyFirebaseToken, async (req, res) => {
-    const projectId = req.params.projectId;
+  app.post('/delete-project', verifyFirebaseToken, async (req, res) => {
+    const projectId = req.body?.projectId;
 
     try {
-      await deleteRecord('projects', projectId);
+      await updateRecord('projects', projectId, {
+        status: 'DELETE',
+        deletedOn: new Date(),
+      });
+
       res.status(200).send({
         message: 'Project deleted successfully.',
       });
@@ -85,6 +89,7 @@ function registerProjectRoutes(app) {
     try {
       const projects = await createCurriedQuery('projects')([
         ['uid', '==', uid],
+        ['status', '!=', 'DELETE'],
       ])('created')('desc')();
 
       res.status(200).send({
