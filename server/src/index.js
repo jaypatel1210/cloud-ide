@@ -15,7 +15,7 @@ const port = process.env.PORT || 4000;
 const app = express();
 app.use(
   cors({
-    origin: 'http://localhost:5173', // TODO: change with actual frontend URL
+    origin: 'https://cloud-ide.jaypatel.digital',
     credentials: true,
   })
 );

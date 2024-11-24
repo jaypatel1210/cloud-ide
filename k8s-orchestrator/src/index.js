@@ -14,7 +14,7 @@ const port = process.env.PORT || 4050;
 const app = express();
 app.use(
   cors({
-    origin: 'http://localhost:5173', // TODO: Update the URL
+    origin: 'https://cloud-ide.jaypatel.digital',
     credentials: true,
   })
 );
