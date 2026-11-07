@@ -2,6 +2,12 @@
 
 The **Cloud IDE** is a powerful, cloud-based development environment designed to provide **isolated, on-demand environments** for secure and efficient remote code execution. Built using **Kubernetes for container orchestration**, it delivers scalability, security, and optimal performance for modern development workflows.
 
+## Demo
+
+![Cloud IDE demo: opening a project, running commands in its terminal and viewing its files](docs/demo.gif)
+
+Recorded in December 2024, when the hosted version was online. The clip opens the project list, starts a project in its own pod, runs `ls` in the terminal and opens files in the editor. Idle time and sign-in are cut. You can also watch it as a [video](docs/demo.mp4).
+
 ## ✨ Key Features
 
 - **Isolated Environments**: Each project runs in its own Kubernetes pod with restricted permissions, dedicated shell access, and precise resource allocation.  
