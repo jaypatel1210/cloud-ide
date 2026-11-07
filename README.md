@@ -1,4 +1,4 @@
-# 🌐 Cloud IDE ([Try it Here!](https://cloud-ide.jaypatel.digital))
+# 🌐 Cloud IDE
 
 The **Cloud IDE** is a powerful, cloud-based development environment designed to provide **isolated, on-demand environments** for secure and efficient remote code execution. Built using **Kubernetes for container orchestration**, it delivers scalability, security, and optimal performance for modern development workflows.
 
